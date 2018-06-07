@@ -12,7 +12,7 @@ public class Main extends ResourceConfig {
 
 	public Main() {
 		//packages("io.test.api.utils");
-		//packages("io.test.api.models");
+		packages("io.test.api.utils.exceptions");
 		register(new AbstractBinder() {
 			@Override
 			protected void configure() {

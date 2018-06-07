@@ -2,27 +2,29 @@ package io.test.api.utils.exceptions;
 
 import javax.json.Json;
 import javax.json.JsonObject;
+import javax.json.stream.JsonParsingException;
+import javax.ws.rs.ProcessingException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
 @Provider
-public class InternalServerError implements ExceptionMapper<Throwable> {
+public class MalformedBody implements ExceptionMapper<JsonParsingException> {
 
 	private JsonObject error = Json
 			.createObjectBuilder()
-			.add("message", "Internal server error")
-			.add("code", 100)
+			.add("error", "Malformed body")
+			.add("code", 102)
 			.build();
 
-	
-	public Response toResponse(Throwable e) {
-		//TODO: log error message
+	public Response toResponse(JsonParsingException e) {
+		// malformed body
 		return Response
-				.status(Response.Status.INTERNAL_SERVER_ERROR)
+				.status(Response.Status.BAD_REQUEST)
 				.type(MediaType.APPLICATION_JSON)
 				.entity(error)
 				.build();
 	}
+
 }
