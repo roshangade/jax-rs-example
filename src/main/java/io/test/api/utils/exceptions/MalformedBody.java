@@ -3,7 +3,6 @@ package io.test.api.utils.exceptions;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.stream.JsonParsingException;
-import javax.ws.rs.ProcessingException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;

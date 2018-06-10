@@ -9,7 +9,6 @@ import javax.ws.rs.GET;
 import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.ProcessingException;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -40,10 +39,17 @@ public class Tweets {
 	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response addTweet(JsonObject body) throws Exception {
-		System.out.println("00000000000000 " + body);
+	public Response addTweet(JsonObject body) {
+		JsonObjectBuilder res = Json.createObjectBuilder().add("message", "Tweet has been added successfully");
+		try {
+			//TODO: validate body
+			tweets.addTweet(body);
+		} catch(Exception e) {
+			throw new InternalServerErrorException();
+		}
 		return Response
 				.status(Response.Status.CREATED)
+				.entity(res.build())
 				.build();
 	}
 }
