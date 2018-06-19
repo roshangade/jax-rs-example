@@ -1,5 +1,7 @@
 package io.test.api;
 
+import java.util.List;
+
 import javax.inject.Inject;
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -13,6 +15,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import io.test.api.models.Tweet;
 import io.test.api.models.TweetsDAO;
 
 @Path("/tweets")
@@ -37,6 +40,24 @@ public class Tweets {
 				.build();
 	}
 	
+	@GET
+	@Path("/all")
+	public Response getTweetsFromHibernate() {
+		JsonObjectBuilder res = Json.createObjectBuilder();
+		try {
+			//System.out.println(tweets.getTweetsFromHibernate());
+			//TODO: query part
+			res.add("tweets", "[]");
+		} catch(Exception e) {
+			System.out.println("AAAAAAAAAAAAAAAAAAAAA "+e.getMessage());
+			throw new InternalServerErrorException();
+		}
+		return Response
+				.status(Response.Status.OK)
+				.entity(tweets.getTweetsFromHibernate())
+				.build();
+	}
+	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response addTweet(JsonObject body) {
@@ -45,6 +66,8 @@ public class Tweets {
 			//TODO: validate body
 			tweets.addTweet(body);
 		} catch(Exception e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
 			throw new InternalServerErrorException();
 		}
 		return Response

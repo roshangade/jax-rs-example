@@ -16,7 +16,7 @@ import javax.ws.rs.core.Response;
 public class Greeting {
 
 	/**
-	 * Create JSON object with "Hello World!" message
+	 * Create JSON object with "Hello World!" message 
 	 */
 	private final JsonObject message = Json.createObjectBuilder().add("message", "Hello World").build();
 

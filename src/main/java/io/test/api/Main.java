@@ -11,7 +11,7 @@ import io.test.api.utils.Database;
 public class Main extends ResourceConfig {
 
 	public Main() {
-		//packages("io.test.api.utils");
+		//packages("io.test.api.utils"); 
 		//packages("io.test.api.utils.exceptions");
 		register(new AbstractBinder() {
 			@Override

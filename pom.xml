@@ -59,6 +59,11 @@
 			<artifactId>postgresql</artifactId>
 			<version>42.2.2</version>
 		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-agroal</artifactId>
+			<version>5.3.1.Final</version>
+		</dependency>
 	</dependencies>
 	<properties>
 		<jersey.version>2.27</jersey.version>
