@@ -39,8 +39,8 @@ public class TweetsDAO {
 		List<Tweet> tweets = null;
 		try {
 			s = sf.openSession();
-			s.beginTransaction();
-			tweets = s.createQuery("from Tweet").getResultList();
+			//s.beginTransaction();
+			tweets = s.createQuery("from Tweet").list();//.getResultList();
 			// = query.list();
 		} catch (Exception e) {
 			System.out.println("xxxxxxxxxx :::::: " + e.getMessage());
@@ -48,6 +48,41 @@ public class TweetsDAO {
 			s.close();
 		}
 		return tweets;
+	}
+	
+	public Tweet getTweetFromHibernate() {
+		Tweet tweet = null;
+		try {
+			s = sf.openSession();
+			//s.beginTransaction();
+			tweet = (Tweet) s.createQuery("from Tweet WHERE uid=:uid").setParameter("uid", "1").uniqueResult();//.getResultList();
+			// = query.list();
+		} catch (Exception e) {
+			System.out.println("xxxxxxxxxx :::::: " + e.getMessage());
+		} finally {
+			s.close();
+		}
+		return tweet;
+	}
+	
+	public void addTweetFromHibernate(Tweet tweet) {
+		//Tweet tweet = null;
+		System.out.println(tweet.getUid() + tweet.getTweet());
+		try {
+			s = sf.openSession();
+			Transaction tx = s.getTransaction();
+			tx.begin();
+			//tweet = (Tweet) s.createQuery("from Tweet WHERE uid=:uid").setParameter("uid", "1").uniqueResult();//.getResultList();
+			s.save(tweet);
+			tx.commit();
+			System.out.println("aaaaaaaaaaaaaaaaaaa");
+			// = query.list();
+		} catch (Exception e) {
+			System.out.println("xxxxxxxxxx :::::: " + e.getMessage());
+		} finally {
+			s.close();
+		}
+		//return tweet;
 	}
 
 	public JsonArray getTweets() throws SQLException {

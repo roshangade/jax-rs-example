@@ -18,8 +18,8 @@ public class Tweet {
 	@Column(name="tweet")
 	private String tweet;
 	
-	@Column(name="likes")
-	private int likes;
+	/*@Column(name="likes")
+	private int likes;*/
 	
 	public String getUid() {
 		return uid;
@@ -33,11 +33,11 @@ public class Tweet {
 	public void setTweet(String tweet) {
 		this.tweet = tweet;
 	}
-	public int getLikes() {
+	/*public int getLikes() {
 		return likes;
 	}
 	public void setLikes(int likes) {
 		this.likes = likes;
-	}
+	}*/
 	
 }
