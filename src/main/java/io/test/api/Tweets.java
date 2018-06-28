@@ -13,6 +13,7 @@ import javax.json.JsonObjectBuilder;
 import javax.json.JsonValue;
 import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
+import javax.validation.ValidationException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.InternalServerErrorException;
@@ -57,7 +58,7 @@ public class Tweets {
 		try {
 			//TODO: query part
 			_tweets.put("tweets", tweets.getTweetsFromHibernate()); 
-			_tweets.put("count", 10);
+			_tweets.put("count", tweets.getTweetsCount());
 		} catch(Exception e) {
 			throw new InternalServerErrorException();
 		}
@@ -97,7 +98,9 @@ public class Tweets {
 			_tweets.put("metadata", "here is metadata");*/
 			tweets.addTweetFromHibernate(body);
 		} catch(Exception e) {
-			throw new InternalServerErrorException();
+			System.out.println("PPPPPPPPPPPPPPPPPPPPPPPPPP "+e.getClass());
+			//throw new ValidationException(e.getMessage());
+			throw e;
 		}
 		return Response
 				.status(Response.Status.CREATED)

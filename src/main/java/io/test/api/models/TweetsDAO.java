@@ -11,6 +11,7 @@ import javax.json.JsonArray;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
+import javax.validation.ValidationException;
 
 import io.test.api.utils.Database;
 
@@ -40,7 +41,7 @@ public class TweetsDAO {
 		try {
 			s = sf.openSession();
 			//s.beginTransaction();
-			tweets = s.createQuery("from Tweet").list();//.getResultList();
+			tweets = s.createQuery("from Tweet").setFirstResult(5).setMaxResults(5).list();//.getResultList();
 			// = query.list();
 		} catch (Exception e) {
 			System.out.println("xxxxxxxxxx :::::: " + e.getMessage());
@@ -48,6 +49,21 @@ public class TweetsDAO {
 			s.close();
 		}
 		return tweets;
+	}
+	
+	public long getTweetsCount() {
+		long count = 0;
+		try {
+			s = sf.openSession();
+			//s.beginTransaction();
+			count = (long) s.createQuery("select count(*) from Tweet").uniqueResult();//.getResultList();
+			// = query.list();
+		} catch (Exception e) {
+			System.out.println("xxxxxxxxxx :::::: " + e.getMessage());
+		} finally {
+			s.close();
+		}
+		return count;
 	}
 	
 	public Tweet getTweetFromHibernate() {
@@ -58,7 +74,8 @@ public class TweetsDAO {
 			tweet = (Tweet) s.createQuery("from Tweet WHERE uid=:uid").setParameter("uid", "1").uniqueResult();//.getResultList();
 			// = query.list();
 		} catch (Exception e) {
-			System.out.println("xxxxxxxxxx :::::: " + e.getMessage());
+			//throw new ValidationException(e.getMessage());
+			//System.out.println("xxxxxxxxxx :::::: " + e.getMessage());
 		} finally {
 			s.close();
 		}
@@ -68,17 +85,19 @@ public class TweetsDAO {
 	public void addTweetFromHibernate(Tweet tweet) {
 		//Tweet tweet = null;
 		System.out.println(tweet.getUid() + tweet.getTweet());
+		s = sf.openSession();
+		Transaction tx = s.getTransaction();
+		tx.begin();
 		try {
-			s = sf.openSession();
-			Transaction tx = s.getTransaction();
-			tx.begin();
 			//tweet = (Tweet) s.createQuery("from Tweet WHERE uid=:uid").setParameter("uid", "1").uniqueResult();//.getResultList();
 			s.save(tweet);
 			tx.commit();
 			System.out.println("aaaaaaaaaaaaaaaaaaa");
 			// = query.list();
 		} catch (Exception e) {
-			System.out.println("xxxxxxxxxx :::::: " + e.getMessage());
+			tx.rollback();
+			throw e;
+			//System.out.println("xxxxxxxxxx :::::: " + e.getMessage());
 		} finally {
 			s.close();
 		}

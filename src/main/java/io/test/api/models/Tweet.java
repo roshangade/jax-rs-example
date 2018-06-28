@@ -6,6 +6,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import javax.ws.rs.DefaultValue;
 
 @Entity
 @Table(name="tweets")
@@ -13,9 +16,14 @@ public class Tweet {
 	
 	@Id
 	@Column(name="uid")
-	private String uid;
+	@NotNull
+	@Size(min=8,max=32)
+	@DefaultValue("aaaaaaaaaa")
+	private String uid = "sssss";
 	
 	@Column(name="tweet")
+	@NotNull
+	@Size(min=1, max=160)
 	private String tweet;
 	
 	/*@Column(name="likes")
