@@ -10,7 +10,7 @@ command:
 /opt/maven/apache-maven-3.5.4/bin/mvn clean compile exec:java
 
 ## Check
-Use http://localhost:8080/management/greeting URL
+Use http://localhost:8080/api/greeting URL
 
 # Headers
 ### Part of nginx config
